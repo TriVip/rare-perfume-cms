@@ -79,7 +79,7 @@ localStorage.setItem('accessToken', response.token);
 
 1. Start the backend server:
    ```
-   cd /Users/rekcal/rare-perfume-cms
+   cd path/to/rare-perfume-cms
    cd backend
    npm install
    npm start
@@ -87,14 +87,14 @@ localStorage.setItem('accessToken', response.token);
 
 2. Start the CMS development server:
    ```
-   cd /Users/rekcal/rare-perfume-cms
+   cd path/to/rare-perfume-cms
    npm install
    npm run dev
    ```
 
 3. Start the frontend development server:
    ```
-   cd /Users/rekcal/rare-parfume-website
+   cd path/to/rare-parfume-website
    npm install
    npm start
    ```

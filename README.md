@@ -242,7 +242,7 @@ The application uses a custom color palette defined in \`tailwind.config.js\`:
 
 ## Frontend Integration
 
-This CMS backend is designed to work with the Rare Perfume frontend website located at `/Users/rekcal/rare-parfume-website`.
+This CMS backend is designed to work with the Rare Perfume frontend website located at `path/to/rare-parfume-website`.
 
 ### Connection Setup
 
