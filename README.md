@@ -193,7 +193,7 @@ vercel --prod
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| \`VITE_API_BASE_URL\` | Backend API URL | \`http://localhost:8000/api\` |
+| \`VITE_API_BASE_URL\` | Backend API URL | \`http://localhost:3001/api\` |
 | \`NODE_ENV\` | Environment mode | \`development\` |
 | \`VITE_APP_NAME\` | Application name | \`Rare Perfume CMS\` |
 
