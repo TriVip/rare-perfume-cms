@@ -26,9 +26,9 @@ This guide explains how to connect the Rare Perfume frontend website to the CMS 
 Make sure your frontend `.env.local` file has the correct API URL:
 
 ```
-REACT_APP_API_BASE_URL=http://localhost:3001/api
-REACT_APP_API_TIMEOUT=10000
-REACT_APP_DEBUG=true
+VITE_API_BASE_URL=http://localhost:3001/api
+VITE_API_TIMEOUT=10000
+VITE_DEBUG=true
 ```
 
 ### 2. Using the API in Frontend Components
@@ -105,7 +105,7 @@ localStorage.setItem('accessToken', response.token);
 
 1. **CORS Issues**: If you encounter CORS errors, make sure the frontend origin is added to the allowed origins in the backend's `.env` file.
 
-2. **API Connection Errors**: Check that both servers are running and that the `REACT_APP_API_BASE_URL` is correctly set.
+2. **API Connection Errors**: Check that both servers are running and that the `VITE_API_BASE_URL` is correctly set.
 
 3. **Authentication Errors**: Ensure that the token is being properly stored in localStorage after login.
 

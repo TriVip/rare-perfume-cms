@@ -12,8 +12,8 @@ const mockQRCode = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAA
 
 // Check if we should use mock data
 const shouldUseMock = () => {
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api'
-  return API_BASE_URL.includes('localhost:3001') || API_BASE_URL.includes('localhost:8000')
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api'
+  return API_BASE_URL.includes('localhost:3001')
 }
 
 // Mock functions
