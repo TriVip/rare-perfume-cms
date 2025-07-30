@@ -4,6 +4,8 @@ import { attemptLogin, findUser, findUserByEmail, insertUser } from '../services
 
 const router = express.Router()
 
+const tokens = new Map()
+
 // Helper function to generate JWT-like token
 const generateToken = (user) => {
   const token = `jwt_${uuidv4()}_${Date.now()}`

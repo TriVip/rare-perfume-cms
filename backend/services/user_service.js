@@ -1,4 +1,5 @@
 import { createDbConnection } from '../database/db.js'
+import { createHash } from 'crypto'
 
 export async function findUser(id) {
   const db = await createDbConnection()
