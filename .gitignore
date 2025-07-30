@@ -11,6 +11,7 @@ yarn.lock
 /build/
 /.next/
 /out/
+*.min.js
 
 # Environment variables
 .env
