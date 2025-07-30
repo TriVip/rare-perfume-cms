@@ -38,8 +38,9 @@ ACCOUNT_HOLDER=NGUYEN VAN A
 CORS_ORIGINS=http://localhost:3000,http://localhost:5173
 
 # Security
-JWT_SECRET=rare_perfume_secret_key_2024
+JWT_SECRET=changeme
 ```
+👉 **Lưu ý**: Hãy thay đổi `JWT_SECRET` thành giá trị bảo mật khi triển khai sản phẩm thực tế.
 
 ### Bước 2: Cài đặt Dependencies
 
