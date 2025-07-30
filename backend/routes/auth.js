@@ -1,22 +1,9 @@
 import express from 'express'
 import { v4 as uuidv4 } from 'uuid'
+import { attemptLogin, findUser, findUserByEmail, insertUser } from '../services/user_service.js'
 
 const router = express.Router()
 
-// Mock user data
-const users = [
-  {
-    id: '1',
-    email: 'admin@rareperfume.com',
-    password: 'admin123', // In production, this should be hashed
-    name: 'Admin User',
-    role: 'admin',
-    avatar: null,
-    createdAt: new Date().toISOString()
-  }
-]
-
-// Mock tokens storage (in production, use Redis or database)
 const tokens = new Map()
 
 // Helper function to generate JWT-like token
@@ -27,7 +14,7 @@ const generateToken = (user) => {
 }
 
 // Middleware to verify token
-const verifyToken = (req, res, next) => {
+const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: { message: 'No token provided', status: 401 } })
@@ -41,7 +28,7 @@ const verifyToken = (req, res, next) => {
     return res.status(401).json({ error: { message: 'Token expired or invalid', status: 401 } })
   }
 
-  const user = users.find(u => u.id === tokenData.userId)
+  const user = await findUser(tokenData.userId)
   if (!user) {
     return res.status(401).json({ error: { message: 'User not found', status: 401 } })
   }
@@ -51,7 +38,7 @@ const verifyToken = (req, res, next) => {
 }
 
 // POST /api/auth/login
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body
 
@@ -61,7 +48,7 @@ router.post('/login', (req, res) => {
       })
     }
 
-    const user = users.find(u => u.email === email && u.password === password)
+    const user = await attemptLogin(email, password)
     if (!user) {
       return res.status(401).json({
         error: { message: 'Invalid email or password', status: 401 }
@@ -85,7 +72,7 @@ router.post('/login', (req, res) => {
 })
 
 // POST /api/auth/register
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   try {
     const { email, password, name } = req.body
 
@@ -96,7 +83,7 @@ router.post('/register', (req, res) => {
     }
 
     // Check if user already exists
-    const existingUser = users.find(u => u.email === email)
+    const existingUser = await findUserByEmail(email)
     if (existingUser) {
       return res.status(409).json({
         error: { message: 'User already exists', status: 409 }
@@ -110,10 +97,10 @@ router.post('/register', (req, res) => {
       name,
       role: 'user',
       avatar: null,
-      createdAt: new Date().toISOString()
+      created_at: new Date().toISOString()
     }
 
-    users.push(newUser)
+    await insertUser(newUser)
     const token = generateToken(newUser)
     const { password: _, ...userWithoutPassword } = newUser
 
