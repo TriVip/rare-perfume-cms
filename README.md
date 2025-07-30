@@ -111,19 +111,23 @@ rare-perfume-cms/
    \`\`\`bash
    npm install
    \`\`\`
+3. **Run the linter**
+   ```bash
+   npm run lint
+   ```
 
-3. **Set up environment variables**
+4. **Set up environment variables**
    \`\`\`bash
    cp .env.example .env
    \`\`\`
    Edit the \`.env\` file with your API endpoint and other configuration.
 
-4. **Start the development server**
+5. **Start the development server**
    \`\`\`bash
    npm run dev
    \`\`\`
 
-5. **Open your browser**
+6. **Open your browser**
    Visit \`http://localhost:3000\` to see the application.
 
 ### Demo Credentials
@@ -256,9 +260,10 @@ For detailed integration instructions, see the [Frontend Integration Guide](./FR
 
 1. Fork the repository
 2. Create a feature branch: \`git checkout -b feature/new-feature\`
-3. Commit your changes: \`git commit -am 'Add new feature'\`
-4. Push to the branch: \`git push origin feature/new-feature\`
-5. Submit a pull request
+3. Run the linter: `npm run lint`
+4. Commit your changes: \`git commit -am 'Add new feature'\`
+5. Push to the branch: \`git push origin feature/new-feature\`
+6. Submit a pull request
 
 ## 📝 License
 
