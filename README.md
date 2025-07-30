@@ -120,7 +120,9 @@ rare-perfume-cms/
    \`\`\`bash
    cp .env.example .env
    \`\`\`
-   Edit the \`.env\` file with your API endpoint and other configuration.
+Edit the \`.env\` file with your API endpoint and other configuration.
+For production deployments, replace placeholder secrets (e.g., \`JWT_SECRET\` in
+\`backend/.env\`) with strong, unique values.
 
 5. **Start the development server**
    \`\`\`bash
