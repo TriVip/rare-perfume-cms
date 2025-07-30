@@ -1,5 +1,7 @@
 import express from 'express'
 import { v4 as uuidv4 } from 'uuid'
+import { createHash } from 'crypto'
+import { createDbConnection, findUser, attemptLogin } from '../database/db.js'
 
 const router = express.Router()
 
@@ -16,6 +18,8 @@ const users = [
   }
 ]
 
+const db = await createDbConnection()
+
 // Mock tokens storage (in production, use Redis or database)
 const tokens = new Map()
 
@@ -27,7 +31,7 @@ const generateToken = (user) => {
 }
 
 // Middleware to verify token
-const verifyToken = (req, res, next) => {
+const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: { message: 'No token provided', status: 401 } })
@@ -41,7 +45,7 @@ const verifyToken = (req, res, next) => {
     return res.status(401).json({ error: { message: 'Token expired or invalid', status: 401 } })
   }
 
-  const user = users.find(u => u.id === tokenData.userId)
+  const user = await findUser(tokenData.userId)
   if (!user) {
     return res.status(401).json({ error: { message: 'User not found', status: 401 } })
   }
@@ -51,7 +55,7 @@ const verifyToken = (req, res, next) => {
 }
 
 // POST /api/auth/login
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body
 
@@ -61,7 +65,7 @@ router.post('/login', (req, res) => {
       })
     }
 
-    const user = users.find(u => u.email === email && u.password === password)
+    const user = await attemptLogin(email, password)
     if (!user) {
       return res.status(401).json({
         error: { message: 'Invalid email or password', status: 401 }
