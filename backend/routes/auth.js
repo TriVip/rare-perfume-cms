@@ -1,27 +1,8 @@
 import express from 'express'
 import { v4 as uuidv4 } from 'uuid'
-import { createHash } from 'crypto'
-import { createDbConnection, findUser, attemptLogin } from '../database/db.js'
+import { attemptLogin, findUser, findUserByEmail, insertUser } from '../services/user_service.js'
 
 const router = express.Router()
-
-// Mock user data
-const users = [
-  {
-    id: '1',
-    email: 'admin@rareperfume.com',
-    password: 'admin123', // In production, this should be hashed
-    name: 'Admin User',
-    role: 'admin',
-    avatar: null,
-    createdAt: new Date().toISOString()
-  }
-]
-
-const db = await createDbConnection()
-
-// Mock tokens storage (in production, use Redis or database)
-const tokens = new Map()
 
 // Helper function to generate JWT-like token
 const generateToken = (user) => {
@@ -89,7 +70,7 @@ router.post('/login', async (req, res) => {
 })
 
 // POST /api/auth/register
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   try {
     const { email, password, name } = req.body
 
@@ -100,7 +81,7 @@ router.post('/register', (req, res) => {
     }
 
     // Check if user already exists
-    const existingUser = users.find(u => u.email === email)
+    const existingUser = await findUserByEmail(email)
     if (existingUser) {
       return res.status(409).json({
         error: { message: 'User already exists', status: 409 }
@@ -114,10 +95,10 @@ router.post('/register', (req, res) => {
       name,
       role: 'user',
       avatar: null,
-      createdAt: new Date().toISOString()
+      created_at: new Date().toISOString()
     }
 
-    users.push(newUser)
+    await insertUser(newUser)
     const token = generateToken(newUser)
     const { password: _, ...userWithoutPassword } = newUser
 
